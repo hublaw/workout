@@ -5,7 +5,8 @@ import {
   emailChanged,
   passwordChanged,
   loginUser,
-  registerUser
+  registerUser,
+  resetPassword
 } from '../actions';
 
 class LoginForm extends Component {
@@ -27,11 +28,14 @@ class LoginForm extends Component {
     const { email, password } = this.props;
     this.props.loginUser({ email, password });
   }
-  onForgetClick = () => console.log('resetting');
-
+  onForgetClick = () => {
+    const { email } = this.props;
+    this.props.resetPassword({ email });
+  }
 
   render() {
     console.log(this.props);
+    const { email, password } = this.props;
     return (
       <Card>
         <CardSection>
@@ -39,7 +43,7 @@ class LoginForm extends Component {
             label="Email"
             placeholder="train@fit.com"
             onChangeText={this.onEmailChange}
-            value={this.props.email}
+            value={email}
           />
         </CardSection>
 
@@ -49,7 +53,7 @@ class LoginForm extends Component {
             label="Password"
             placeholder="password"
             onChangeText={this.onPasswordChange}
-            value={this.props.password}
+            value={password}
           />
         </CardSection>
 
@@ -77,5 +81,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser, registerUser
+  emailChanged, passwordChanged, loginUser, registerUser, resetPassword
 })(LoginForm);
