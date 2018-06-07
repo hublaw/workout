@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 import {
   emailChanged,
   passwordChanged,
@@ -52,6 +52,16 @@ class LoginForm extends Component {
     }
   }
   renderButtons = () => {
+    const { loading } = this.props;
+
+    if (loading) {
+      return (
+        <CardSection>
+          <Spinner size="large" />
+        </CardSection>
+      );
+    }
+
       return (
         <View>
           <CardSection>
@@ -118,8 +128,8 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const { email, password, error, user, info } = state.auth;
-  return { email, password, error, user, info };
+  const { email, password, error, user, info, loading } = state.auth;
+  return { email, password, error, user, info, loading };
 };
 
 export default connect(mapStateToProps, {

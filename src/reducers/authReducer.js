@@ -15,7 +15,8 @@ const INIT_STATE = {
   password: '',
   error: '',
   user: null,
-  info: ''
+  info: '',
+  loading: false
 };
 
 export default (state = INIT_STATE, action) => {
@@ -36,34 +37,42 @@ export default (state = INIT_STATE, action) => {
     case LOGIN_USER:
     return {
       ...state,
+      loading: true,
+      error: ''
     };
     case LOGIN_SUCCESS:
     return {
       ...state,
       ...INIT_STATE,
-      user: action.payload
+      user: action.payload,
     };
     case LOGIN_FAIL:
     case RESET_PASSWORD_FAIL:
     return {
       ...state,
       password: '',
-      error: action.payload
+      error: action.payload,
+      loading: false
     };
     case RESET_PASSWORD:
     return {
       ...state,
+      loading: true,
+      error: ''
     };
     case RESET_PASSWORD_SUCCESS:
     return {
       ...state,
       password: '',
       error: '',
-      info: action.payload
+      info: action.payload,
+      loading: false
     };
     case REGISTER_USER:
     return {
       ...state,
+      loading: true,
+      error: ''
     };
 
     default: return state;
