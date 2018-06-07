@@ -6,7 +6,6 @@ import {
   LOGIN_FAIL,
   REGISTER_USER,
   RESET_PASSWORD,
-  RESET_PASSWORD_FAIL,
   RESET_PASSWORD_SUCCESS
 } from '../actions/types';
 
@@ -35,6 +34,8 @@ export default (state = INIT_STATE, action) => {
       password: action.payload
     };
     case LOGIN_USER:
+    case REGISTER_USER:
+    case RESET_PASSWORD:
     return {
       ...state,
       loading: true,
@@ -47,18 +48,11 @@ export default (state = INIT_STATE, action) => {
       user: action.payload,
     };
     case LOGIN_FAIL:
-    case RESET_PASSWORD_FAIL:
     return {
       ...state,
       password: '',
       error: action.payload,
       loading: false
-    };
-    case RESET_PASSWORD:
-    return {
-      ...state,
-      loading: true,
-      error: ''
     };
     case RESET_PASSWORD_SUCCESS:
     return {
@@ -67,12 +61,6 @@ export default (state = INIT_STATE, action) => {
       error: '',
       info: action.payload,
       loading: false
-    };
-    case REGISTER_USER:
-    return {
-      ...state,
-      loading: true,
-      error: ''
     };
 
     default: return state;

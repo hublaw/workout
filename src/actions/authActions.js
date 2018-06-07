@@ -8,7 +8,6 @@ import {
   REGISTER_USER,
   RESET_PASSWORD,
   RESET_PASSWORD_SUCCESS,
-  RESET_PASSWORD_FAIL
 } from './types';
 
 export const emailChanged = (text) => {
@@ -58,7 +57,7 @@ export const resetPassword = ({ email }) => {
     firebase.auth().sendPasswordResetEmail(email)
     .then(() => resetPasswordSuccess(dispatch, email))
     .catch((error) => {
-      resetPasswordFail(dispatch, error);
+      loginFail(dispatch, error);
       console.log(error);
     });
   };
@@ -83,12 +82,5 @@ const resetPasswordSuccess = (dispatch, email) => {
   dispatch({
     type: RESET_PASSWORD_SUCCESS,
     payload: `Email sent to ${email}`
-  });
-};
-
-const resetPasswordFail = (dispatch, error) => {
-  dispatch({
-    type: RESET_PASSWORD_FAIL,
-    payload: error.message
   });
 };
