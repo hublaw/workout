@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View, Text } from 'react-native';
 import { Card, CardSection, Input, Button } from './common';
 import {
   emailChanged,
@@ -33,6 +34,43 @@ class LoginForm extends Component {
     this.props.resetPassword({ email });
   }
 
+  // render helper functions
+  renderError = () => {
+    const { error } = this.props;
+    if (error) {
+      return (
+        <Text style={styles.errorTextStyle}>{error}</Text>
+      );
+    }
+  }
+  renderInfo = () => {
+    const { info } = this.props;
+    if (info) {
+      return (
+        <Text style={styles.infoTextStyle}>{info}</Text>
+      );
+    }
+  }
+  renderButtons = () => {
+      return (
+        <View>
+          <CardSection>
+            <Button action={this.onLoginClick}>
+              Log In
+            </Button>
+          </CardSection>
+          <CardSection>
+            <Button action={this.onRegisterClick}>
+              Register
+            </Button>
+            <Button action={this.onForgetClick}>
+              Forgot Password
+            </Button>
+          </CardSection>
+        </View>
+      );
+    };
+
   render() {
     console.log(this.props);
     const { email, password } = this.props;
@@ -57,27 +95,31 @@ class LoginForm extends Component {
           />
         </CardSection>
 
-        <CardSection>
-          <Button action={this.onLoginClick}>
-            Log In
-          </Button>
-        </CardSection>
-        <CardSection>
-          <Button action={this.onRegisterClick}>
-            Register
-          </Button>
-          <Button action={this.onForgetClick}>
-            Forgot Password
-          </Button>
-        </CardSection>
+        {this.renderError()}
+        {this.renderInfo()}
+        {this.renderButtons()}
+
       </Card>
     );
   }
 }
 
+const styles = {
+  errorTextStyle: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 16
+  },
+  infoTextStyle: {
+    color: 'green',
+    textAlign: 'center',
+    fontSize: 16
+  }
+};
+
 const mapStateToProps = state => {
-  const { email, password } = state.auth;
-  return { email, password };
+  const { email, password, error, user, info } = state.auth;
+  return { email, password, error, user, info };
 };
 
 export default connect(mapStateToProps, {

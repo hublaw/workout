@@ -5,16 +5,22 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   REGISTER_USER,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAIL,
+  RESET_PASSWORD_SUCCESS
 } from '../actions/types';
 
 const INIT_STATE = {
   email: '',
-  password: ''
+  password: '',
+  error: '',
+  user: null,
+  info: ''
 };
 
 export default (state = INIT_STATE, action) => {
   console.log(action);
+  console.log(state);
 
   switch (action.type) {
     case EMAIL_CHANGED:
@@ -38,16 +44,24 @@ export default (state = INIT_STATE, action) => {
       user: action.payload
     };
     case LOGIN_FAIL:
+    case RESET_PASSWORD_FAIL:
     return {
       ...state,
       password: '',
       error: action.payload
     };
-    case REGISTER_USER:
+    case RESET_PASSWORD:
     return {
       ...state,
     };
-    case RESET_PASSWORD:
+    case RESET_PASSWORD_SUCCESS:
+    return {
+      ...state,
+      password: '',
+      error: '',
+      info: action.payload
+    };
+    case REGISTER_USER:
     return {
       ...state,
     };

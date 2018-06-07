@@ -6,7 +6,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   REGISTER_USER,
-  RESET_PASSWORD
+  RESET_PASSWORD,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAIL
 } from './types';
 
 export const emailChanged = (text) => {
@@ -41,8 +43,9 @@ export const registerUser = ({ email, password }) => {
     dispatch({ type: REGISTER_USER });
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(() => console.log('success!'))
+    .then((user) => loginSuccess(dispatch, user))
     .catch((error) => {
+      loginFail(dispatch, error);
       console.log(error);
     });
   };
@@ -53,8 +56,9 @@ export const resetPassword = ({ email }) => {
     dispatch({ type: RESET_PASSWORD });
 
     firebase.auth().sendPasswordResetEmail(email)
-    .then(() => console.log(`success! emailing ${email}`))
+    .then(() => resetPasswordSuccess(dispatch, email))
     .catch((error) => {
+      resetPasswordFail(dispatch, error);
       console.log(error);
     });
   };
@@ -71,6 +75,20 @@ const loginSuccess = (dispatch, user) => {
 const loginFail = (dispatch, error) => {
   dispatch({
     type: LOGIN_FAIL,
+    payload: error.message
+  });
+};
+
+const resetPasswordSuccess = (dispatch, email) => {
+  dispatch({
+    type: RESET_PASSWORD_SUCCESS,
+    payload: `Email sent to ${email}`
+  });
+};
+
+const resetPasswordFail = (dispatch, error) => {
+  dispatch({
+    type: RESET_PASSWORD_FAIL,
     payload: error.message
   });
 };
