@@ -39,7 +39,8 @@ export default (state = INIT_STATE, action) => {
     return {
       ...state,
       loading: true,
-      error: ''
+      error: '',
+      info: ''
     };
     case LOGIN_SUCCESS:
     return {
